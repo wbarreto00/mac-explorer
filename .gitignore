@@ -1,0 +1,11 @@
+.build/
+.swiftpm/
+work/
+outputs/
+.codex/
+AGENTS.md
+.env
+.env.*
+*.p12
+*.p8
+.DS_Store

@@ -1,0 +1,7 @@
+"CFBundleName" = "Mac Explorer";
+"CFBundleDisplayName" = "Mac Explorer";
+"NSDocumentsFolderUsageDescription" = "O Mac Explorer precisa acessar Documentos para mostrar e organizar os arquivos que você escolher.";
+"NSDesktopFolderUsageDescription" = "O Mac Explorer precisa acessar a Mesa para mostrar e organizar seus arquivos.";
+"NSDownloadsFolderUsageDescription" = "O Mac Explorer precisa acessar Downloads para mostrar e organizar seus arquivos.";
+"NSRemovableVolumesUsageDescription" = "O Mac Explorer permite navegar pelos discos que você conectar.";
+"NSNetworkVolumesUsageDescription" = "O Mac Explorer permite navegar pelas pastas de rede montadas no Mac.";

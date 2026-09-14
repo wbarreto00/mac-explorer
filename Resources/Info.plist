@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleExecutable</key><string>MacExplorer</string>
+<key>CFBundleIdentifier</key><string>io.wellington.trilha</string>
+<key>CFBundleName</key><string>Mac Explorer</string>
+<key>CFBundleDisplayName</key><string>Mac Explorer</string>
+<key>CFBundleIconFile</key><string>MacExplorer</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>CFBundleShortVersionString</key><string>1.2.0</string>
+<key>CFBundleVersion</key><string>3</string>
+<key>LSMinimumSystemVersion</key><string>14.0</string>
+<key>NSPrincipalClass</key><string>NSApplication</string>
+<key>NSHighResolutionCapable</key><true/>
+<key>CFBundleDevelopmentRegion</key><string>en</string>
+<key>CFBundleLocalizations</key><array><string>en</string><string>pt-BR</string><string>es</string></array>
+<key>NSDocumentsFolderUsageDescription</key><string>Mac Explorer needs access to Documents to show and organize the files you choose.</string>
+<key>NSDesktopFolderUsageDescription</key><string>Mac Explorer needs access to Desktop to show and organize your files.</string>
+<key>NSDownloadsFolderUsageDescription</key><string>Mac Explorer needs access to Downloads to show and organize your files.</string>
+<key>NSRemovableVolumesUsageDescription</key><string>Mac Explorer lets you browse the drives you connect.</string>
+<key>NSNetworkVolumesUsageDescription</key><string>Mac Explorer lets you browse network folders mounted on your Mac.</string>
+</dict></plist>
