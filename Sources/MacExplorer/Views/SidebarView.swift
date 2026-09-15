@@ -5,13 +5,22 @@ struct SidebarView: View {
     @ObservedObject var tab: BrowserTab
     @ObservedObject var workspace: WorkspaceState
     @ObservedObject private var preferences = PreferencesStore.shared
+    @State private var favoriteDropTargeted = false
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 Text(L10n.text("sidebar.navigation")).font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
                 Spacer()
-                Button { preferences.toggleFavorite(tab.location) } label: { Image(systemName: preferences.favorites.contains(tab.location) ? "star.fill" : "star") }.buttonStyle(.borderless).help(L10n.text("favorite.toggle"))
+                Button { preferences.toggleFavorite(tab.location) } label: { Image(systemName: preferences.isFavorite(tab.location) ? "star.fill" : "star") }.buttonStyle(.borderless).help(L10n.text("favorite.toggle"))
             }.padding(.horizontal, 16).padding(.top, 17).padding(.bottom, 10)
+            Text(L10n.text("sidebar.favorites"))
+                .font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 16).frame(height: 28)
+                .background(favoriteDropTargeted ? Color.accentColor.opacity(0.2) : Color.clear)
+                .contentShape(Rectangle())
+                .help(L10n.text("favorite.drop_hint"))
+                .onDrop(of: [.fileURL], isTargeted: $favoriteDropTargeted) { FavoriteDrop.accept($0) }
             FolderTree(tab: tab, workspace: workspace, favorites: preferences.favorites)
             HStack(spacing: 7) {
                 Image(systemName: "internaldrive")
@@ -50,11 +59,15 @@ private struct FolderTree: NSViewRepresentable {
         tree.delegate = context.coordinator; tree.dataSource = context.coordinator
         tree.target = context.coordinator; tree.action = #selector(Coordinator.clicked)
         tree.backgroundColor = .clear
+        tree.registerForDraggedTypes([.fileURL])
+        tree.setDraggingSourceOperationMask(.copy, forLocal: true)
+        tree.setDraggingSourceOperationMask(.copy, forLocal: false)
+        let menu = NSMenu(); menu.delegate = context.coordinator; menu.autoenablesItems = false; tree.menu = menu
         let scroll = NSScrollView()
         scroll.drawsBackground = false; scroll.hasVerticalScroller = true; scroll.documentView = tree
         context.coordinator.tree = tree
         context.coordinator.buildRoots()
-        tree.reloadData(); context.coordinator.roots.forEach { tree.expandItem($0) }
+        tree.reloadData(); context.coordinator.roots.dropFirst().forEach { tree.expandItem($0) }
         return scroll
     }
     func updateNSView(_ view: NSScrollView, context: Context) {
@@ -62,20 +75,23 @@ private struct FolderTree: NSViewRepresentable {
         context.coordinator.parent = self
         if old.favorites != favorites || context.coordinator.lastHidden != tab.preferences.showHidden {
             context.coordinator.buildRoots(); context.coordinator.tree?.reloadData()
-            context.coordinator.roots.forEach { context.coordinator.tree?.expandItem($0) }
+            context.coordinator.roots.dropFirst().forEach { context.coordinator.tree?.expandItem($0) }
         }
         context.coordinator.refreshCurrentNode()
         context.coordinator.highlight()
     }
 
-    @MainActor final class Coordinator: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
+    @MainActor final class Coordinator: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate, NSMenuDelegate {
         var parent: FolderTree
         weak var tree: NSOutlineView?
         var roots: [FolderNode] = []
         var lastHidden = false
         var lastFolderSignature = ""
+        private var menuFolder: URL?
+        private var displayedRoots: [FolderNode] { (roots.first?.children ?? []) + roots.dropFirst() }
         init(_ parent: FolderTree) { self.parent = parent }
         func buildRoots() {
+            lastFolderSignature = ""
             lastHidden = parent.tab.preferences.showHidden
             let volumes = (FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: [.volumeIsBrowsableKey], options: [.skipHiddenVolumes]) ?? []).filter { $0.path != "/" }
             roots = [
@@ -85,13 +101,13 @@ private struct FolderTree: NSViewRepresentable {
             if !volumes.isEmpty { roots.append(FolderNode(header: L10n.text("sidebar.volumes"), children: volumes.map { FolderNode(url: $0) })) }
         }
         func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-            guard let node = item as? FolderNode else { return roots.count }
+            guard let node = item as? FolderNode else { return displayedRoots.count }
             if node.children == nil { load(node) }
             return node.children?.count ?? 0
         }
         func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
             if let node = item as? FolderNode { return node.children![index] }
-            return roots[index]
+            return displayedRoots[index]
         }
         func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
             guard let node = item as? FolderNode else { return false }
@@ -113,13 +129,59 @@ private struct FolderTree: NSViewRepresentable {
                 icon.translatesAutoresizingMaskIntoConstraints = false; cell.addSubview(icon)
                 NSLayoutConstraint.activate([icon.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 2), icon.centerYAnchor.constraint(equalTo: cell.centerYAnchor), icon.widthAnchor.constraint(equalToConstant: 18), icon.heightAnchor.constraint(equalToConstant: 18), text.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 7)])
                 cell.toolTip = url.path
-            } else { text.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 2).isActive = true }
+            } else {
+                text.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 2).isActive = true
+            }
             NSLayoutConstraint.activate([text.centerYAnchor.constraint(equalTo: cell.centerYAnchor), text.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -4)])
             return cell
         }
         @objc func clicked() {
             guard let tree, tree.clickedRow >= 0, let node = tree.item(atRow: tree.clickedRow) as? FolderNode, let url = node.url else { return }
             parent.tab.navigate(to: url)
+        }
+        func outlineView(_ outlineView: NSOutlineView, pasteboardWriterForItem item: Any) -> NSPasteboardWriting? {
+            (item as? FolderNode)?.url as NSURL?
+        }
+        private func isFavoritesTarget(_ item: Any?, info: NSDraggingInfo, in outline: NSOutlineView) -> Bool {
+            guard let header = roots.first else { return false }
+            var node = item as? FolderNode
+            while let current = node {
+                if current === header || header.children?.contains(where: { $0 === current }) == true { return true }
+                node = outline.parent(forItem: current) as? FolderNode
+            }
+            // An insertion between root groups may be proposed with a nil item.
+            guard item == nil else { return false }
+            let point = outline.convert(info.draggingLocation, from: nil)
+            let row = outline.row(at: point)
+            let nextGroup = roots.count > 1 ? outline.row(forItem: roots[1]) : outline.numberOfRows
+            return row >= 0 && row < nextGroup
+        }
+        private func droppedURLs(_ info: NSDraggingInfo) -> [URL] {
+            (info.draggingPasteboard.readObjects(forClasses: [NSURL.self], options: [.urlReadingFileURLsOnly: true]) as? [URL]) ?? []
+        }
+        func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
+            guard isFavoritesTarget(item, info: info, in: outlineView), !droppedURLs(info).isEmpty else { return [] }
+            outlineView.setDropItem(nil, dropChildIndex: roots.first?.children?.count ?? 0)
+            return .copy
+        }
+        func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
+            guard isFavoritesTarget(item, info: info, in: outlineView) else { return false }
+            let urls = droppedURLs(info)
+            guard !urls.isEmpty else { return false }
+            PreferencesStore.shared.addFavorites(urls)
+            return true
+        }
+        func menuWillOpen(_ menu: NSMenu) {
+            menu.removeAllItems()
+            menuFolder = nil
+            guard let tree, tree.clickedRow >= 0, let node = tree.item(atRow: tree.clickedRow) as? FolderNode, let url = node.url else { return }
+            menuFolder = url
+            let saved = PreferencesStore.shared.isFavorite(url)
+            let action = NSMenuItem(title: L10n.text(saved ? "favorite.remove" : "favorite.add"), action: #selector(toggleMenuFavorite), keyEquivalent: "")
+            action.target = self; menu.addItem(action)
+        }
+        @objc private func toggleMenuFavorite() {
+            if let url = menuFolder { PreferencesStore.shared.toggleFavorite(url) }
         }
         func highlight() {
             guard let tree else { return }

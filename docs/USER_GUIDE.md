@@ -6,7 +6,9 @@ English · [Português (Brasil)](USER_GUIDE.pt-BR.md) · [Español](USER_GUIDE.e
 
 Expand the arrows in the left sidebar to browse folders. Click a folder to display its contents. Double-click a folder in the file area to enter it, or a file to open its associated app. Use the path bar to jump to a parent; ⌘L accepts an absolute path or a path beginning with `~`.
 
-The star beside Navigation adds or removes the current folder from favorites. Connected drives and network shares appear after macOS mounts them. This app does not connect to an unmounted network server itself.
+Right-click a folder and choose **Add to Favorites**, or drag folders from the file area, sidebar or Finder onto **Favorites** in the left sidebar. You can also drop onto a row within the Favorites section. These actions save shortcuts to the original locations without copying or moving folders. Repeated additions do not create duplicates, and your list is saved when you quit. Right-click a saved folder and choose **Remove from Favorites** to remove only the shortcut. The star beside Navigation still adds or removes the current folder.
+
+Connected drives and network shares appear after macOS mounts them. Saved favorites on disconnected drives remain in your list. This app does not connect to an unmounted network server itself.
 
 In **Organize**, choose **Sort by** and **Group by** separately. For example, group by Kind, then sort by Modified to see recently changed files within each type. Ascending/descending group order is independent of sorting inside each group. Folders First is optional. In Details, double-click a group header to collapse it; in icon views, click the header.
 

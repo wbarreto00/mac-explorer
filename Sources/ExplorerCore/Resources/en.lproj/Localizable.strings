@@ -4,6 +4,13 @@
 "action.open_selection" = "Open Selection";
 "date.added" = "Added";
 "favorite.toggle" = "Add or remove this folder from Favorites";
+"favorite.add" = "Add to Favorites";
+"favorite.remove" = "Remove from Favorites";
+"favorite.drop_hint" = "Drop folders here to add them to Favorites";
+"favorite.folders_only" = "Only available folders can be added to Favorites.";
+"favorite.already_added" = "These folders are already in Favorites.";
+"count.favorites_added.one" = "%lld folder added to Favorites.";
+"count.favorites_added.other" = "%lld folders added to Favorites.";
 "group.by" = "Group By";
 "operation.wait" = "Wait for the operation to finish before quitting Mac Explorer.";
 "operation.some_failed" = "Some items could not be processed";

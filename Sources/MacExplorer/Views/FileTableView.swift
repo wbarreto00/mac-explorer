@@ -32,7 +32,7 @@ struct FileTableView: NSViewRepresentable {
         context.coordinator.update()
     }
 
-    enum Row {
+    enum Row: Equatable {
         case group(String, Int)
         case file(FileEntry)
     }
@@ -43,12 +43,14 @@ struct FileTableView: NSViewRepresentable {
         var applying = false
         var fields: [SortField] = []
         var collapsed: Set<String> = []
+        var lastShowExtensions: Bool?
         init(_ parent: FileTableView) { self.parent = parent }
         func update() {
             guard let table else { return }
             applying = true
             defer { applying = false }
             let desired: [SortField] = parent.tab.preferences.view == .list ? [.name] : parent.tab.preferences.columns
+            let columnsChanged = fields != desired
             if fields != desired {
                 table.tableColumns.forEach { table.removeTableColumn($0) }
                 for field in desired {
@@ -64,15 +66,19 @@ struct FileTableView: NSViewRepresentable {
                 }
                 fields = desired
             }
-            table.sortDescriptors = [NSSortDescriptor(key: parent.tab.preferences.sort.rawValue, ascending: parent.tab.preferences.ascending)]
-            rows = []
+            let descriptors = [NSSortDescriptor(key: parent.tab.preferences.sort.rawValue, ascending: parent.tab.preferences.ascending)]
+            if table.sortDescriptors != descriptors { table.sortDescriptors = descriptors }
+            var nextRows: [Row] = []
             for group in parent.tab.groups {
-                if !group.title.isEmpty { rows.append(.group(group.title, group.entries.count)) }
-                if !collapsed.contains(group.title) { rows += group.entries.map { .file($0) } }
+                if !group.title.isEmpty { nextRows.append(.group(group.title, group.entries.count)) }
+                if !collapsed.contains(group.title) { nextRows += group.entries.map { .file($0) } }
             }
-            table.reloadData()
+            let reload = columnsChanged || rows != nextRows || lastShowExtensions != parent.tab.preferences.showExtensions
+            rows = nextRows
+            lastShowExtensions = parent.tab.preferences.showExtensions
+            if reload { table.reloadData() }
             let indexes = IndexSet(rows.indices.filter { index in if case .file(let item) = rows[index] { return parent.tab.selection.contains(item.url) }; return false })
-            table.selectRowIndexes(indexes, byExtendingSelection: false)
+            if table.selectedRowIndexes != indexes { table.selectRowIndexes(indexes, byExtendingSelection: false) }
         }
         func numberOfRows(in tableView: NSTableView) -> Int { rows.count }
         func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
@@ -116,7 +122,8 @@ struct FileTableView: NSViewRepresentable {
         }
         func tableViewSelectionDidChange(_ notification: Notification) {
             guard !applying, let table else { return }
-            parent.tab.selection = Set(table.selectedRowIndexes.compactMap { index in if case .file(let item) = rows[index] { return item.url }; return nil })
+            let selection = Set(table.selectedRowIndexes.compactMap { index in if case .file(let item) = rows[index] { return item.url }; return nil })
+            if parent.tab.selection != selection { parent.tab.selection = selection }
         }
         func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
             guard !applying, let sort = tableView.sortDescriptors.first, let field = SortField(rawValue: sort.key ?? "") else { return }
@@ -180,6 +187,11 @@ struct FileTableView: NSViewRepresentable {
             let selected = !parent.tab.selection.isEmpty, busy = Operations.shared.busy
             add(menu, L10n.text("action.open"), "open", selected)
             if parent.tab.selectedEntries.first?.navigable == true { add(menu, L10n.text("action.open_tab"), "tab", true) }
+            let folders = parent.tab.selectedEntries.filter(\.navigable).map(\.url)
+            if !folders.isEmpty {
+                let allSaved = folders.allSatisfy { PreferencesStore.shared.isFavorite($0) }
+                add(menu, L10n.text(allSaved ? "favorite.remove" : "favorite.add"), allSaved ? "removeFavorite" : "addFavorite", true)
+            }
             add(menu, L10n.text("action.finder"), "finder", selected)
             menu.addItem(.separator())
             add(menu, L10n.text("action.cut"), "cut", selected); add(menu, L10n.text("action.copy"), "copy", selected)
@@ -204,6 +216,8 @@ struct FileTableView: NSViewRepresentable {
             switch item.representedObject as? String {
             case "open": tab.openSelection()
             case "tab": if let entry = tab.selectedEntries.first { parent.workspace.newTab(entry.url) }
+            case "addFavorite": PreferencesStore.shared.addFavorites(tab.selectedEntries.filter(\.navigable).map(\.url))
+            case "removeFavorite": PreferencesStore.shared.removeFavorites(tab.selectedEntries.filter(\.navigable).map(\.url))
             case "finder": NSWorkspace.shared.activateFileViewerSelecting(tab.selectedEntries.map(\.url))
             case "cut": operations.copy(tab, cut: true)
             case "copy": operations.copy(tab)

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0 · 2026-09-15
+
+- Right-click folders to add or remove Favorites in Details, List, icon views and the sidebar.
+- Drag folders from the file area, sidebar or Finder onto the Favorites section to pin them. This saves references without copying or moving files.
+- Favorites are saved across launches, normalized and deduplicated. Files and application bundles are ignored; disconnected saved folders are retained.
+- Updated EN, PT-BR and ES menus and user guides. Added checks for favorites filtering, persistence, duplicate handling and non-destructive removal.
+
 ## 1.2.0 · 2026-09-14
 
 First public GitHub release.

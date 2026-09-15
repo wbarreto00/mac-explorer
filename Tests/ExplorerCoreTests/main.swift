@@ -29,6 +29,8 @@ let checks: [(String, () throws -> Void)] = [
     ("Dangling symlink collision", suite.testDanglingLinkCountsAsCollision),
     ("Preferences persistence", suite.testPreferencesRoundTrip),
     ("Deferred tag metadata", suite.testTagsAreReadOnlyWhenRequested),
+    ("Favorite folders reject files and deduplicate without moving", suite.testFavoriteFolderFilteringAndDuplicates),
+    ("Favorites persist, including empty and disconnected lists", suite.testFavoritesPersistenceAndEmptyList),
     ("English default and saved language choice", suite.testDefaultAndSelectedLanguage),
     ("System language matching and fallback", suite.testLanguageResolution),
     ("Complete EN, PT-BR and ES catalogs", suite.testCompleteCatalogsAndFormatting),

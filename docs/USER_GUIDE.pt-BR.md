@@ -6,7 +6,9 @@
 
 Expanda as setas na barra lateral para navegar pelas pastas. Clique em uma pasta para listar seu conteúdo. Dê dois cliques em uma pasta na área de arquivos para entrar nela, ou em um arquivo para abri-lo no aplicativo associado. O caminho clicável leva às pastas superiores; ⌘L aceita um caminho absoluto ou começando por `~`.
 
-A estrela ao lado de Navegação adiciona ou remove a pasta atual dos favoritos. Discos e compartilhamentos de rede aparecem depois de montados pelo macOS. O app não conecta diretamente a servidores ainda não montados.
+Clique com o botão direito em uma pasta e escolha **Adicionar aos favoritos**, ou arraste pastas da área de arquivos, da barra lateral ou do Finder para **Favoritos**, à esquerda. Também é possível soltar sobre uma pasta dessa seção. A ação salva atalhos para os locais originais, sem copiar nem mover pastas. Repetir a adição não cria duplicados, e a lista permanece salva ao encerrar o app. Para retirar apenas o atalho, clique com o botão direito e escolha **Remover dos favoritos**. A estrela ao lado de Navegação continua adicionando ou removendo a pasta atual.
+
+Discos e compartilhamentos de rede aparecem depois de montados pelo macOS. Favoritos de discos desconectados permanecem na lista. O app não conecta diretamente a servidores ainda não montados.
 
 Em **Organizar**, escolha a ordenação e o agrupamento separadamente. Por exemplo, agrupe por Tipo e ordene por Modificado para ver os arquivos recentes dentro de cada tipo. A ordem dos grupos é independente da ordenação dos itens. Pastas primeiro é opcional. Em Detalhes, dê dois cliques no título do grupo para recolher; nos ícones, clique no título.
 

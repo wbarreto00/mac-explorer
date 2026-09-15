@@ -6,7 +6,9 @@
 
 Despliega las flechas de la barra lateral para navegar por las carpetas. Pulsa una carpeta para mostrar su contenido. Haz doble clic en una carpeta del área de archivos para entrar o en un archivo para abrir su aplicación asociada. La barra de ruta permite volver a carpetas superiores; ⌘L acepta una ruta absoluta o que empiece por `~`.
 
-La estrella junto a Navegación añade o quita la carpeta actual de favoritos. Los discos y recursos de red aparecen cuando macOS los monta. La app no conecta directamente a servidores que todavía no estén montados.
+Haz clic derecho en una carpeta y elige **Añadir a Favoritos**, o arrastra carpetas desde el área de archivos, la barra lateral o Finder hasta **Favoritos**, a la izquierda. También puedes soltarlas sobre una carpeta de esa sección. Se guardan accesos a las ubicaciones originales sin copiar ni mover carpetas. Las adiciones repetidas no crean duplicados y la lista se conserva al cerrar la app. Haz clic derecho y elige **Quitar de Favoritos** para eliminar solo el acceso. La estrella junto a Navegación sigue añadiendo o quitando la carpeta actual.
+
+Los discos y recursos de red aparecen cuando macOS los monta. Los favoritos de discos desconectados permanecen en la lista. La app no conecta directamente a servidores que todavía no estén montados.
 
 En **Organizar**, elige la ordenación y la agrupación por separado. Por ejemplo, agrupa por Tipo y ordena por Modificado para ver los archivos recientes de cada tipo. El orden de los grupos es independiente del orden de sus elementos. Carpetas primero es opcional. En Detalles, haz doble clic en el encabezado de un grupo para contraerlo; en iconos, pulsa el encabezado.
 

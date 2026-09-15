@@ -89,6 +89,9 @@ struct FileGridView: View {
         .contextMenu {
             Button(L10n.text("action.open")) { tab.selection = [entry.url]; tab.open(entry) }
             if entry.navigable { Button(L10n.text("action.open_tab")) { workspace.newTab(entry.url) } }
+            if entry.navigable {
+                FavoriteFolderMenu(urls: tab.selection.contains(entry.url) ? tab.selectedEntries.filter(\.navigable).map(\.url) : [entry.url])
+            }
             Divider()
             Button(L10n.text("selection.this")) { tab.selection = [entry.url] }
             Button(L10n.text("action.copy")) { selectForAction(entry); Operations.shared.copy(tab) }

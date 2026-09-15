@@ -4,6 +4,13 @@
 "action.open_selection" = "Abrir seleção";
 "date.added" = "Adicionado";
 "favorite.toggle" = "Adicionar ou remover pasta dos favoritos";
+"favorite.add" = "Adicionar aos favoritos";
+"favorite.remove" = "Remover dos favoritos";
+"favorite.drop_hint" = "Solte pastas aqui para adicioná-las aos favoritos";
+"favorite.folders_only" = "Somente pastas disponíveis podem ser adicionadas aos favoritos.";
+"favorite.already_added" = "Estas pastas já estão nos favoritos.";
+"count.favorites_added.one" = "%lld pasta adicionada aos favoritos.";
+"count.favorites_added.other" = "%lld pastas adicionadas aos favoritos.";
 "group.by" = "Agrupar por";
 "operation.wait" = "Aguarde a conclusão da operação antes de encerrar o Mac Explorer.";
 "operation.some_failed" = "Alguns itens não foram processados";
