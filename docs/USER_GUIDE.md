@@ -45,7 +45,15 @@ Copy and move operations preserve name conflicts by adding a number. Renaming to
 | Refresh / hidden files | ⌘R / ⌘⇧. |
 | Move to Trash | ⌘⌫ |
 | Undo Last Move | ⌘⌥Z |
-| Language settings | ⌘, |
+| Language and permissions settings | ⌘, |
+
+## File access permissions
+
+Open **Mac Explorer → Settings… → Permissions** (⌘,) and click **Open Full Disk Access…**. This optional setting gives Mac Explorer broad access to protected files, including other apps' data and backups. Individual folder permissions remain available if you prefer narrower access.
+
+In macOS System Settings, enable Mac Explorer. If it is missing, use **+** to add it; **Show App in Finder** locates the copy you are currently running. Authenticate with Touch ID or your Mac password when macOS asks, then quit and reopen the app. The app cannot grant itself permission or authenticate on your behalf. If the shortcut is unavailable, navigate manually to **System Settings → Privacy & Security → Full Disk Access**.
+
+This release is ad hoc signed. Updating or rebuilding it can change the identity macOS uses to remember permissions, so authorization may be requested again. Full Disk Access does not resolve this signing limitation or provide Apple notarization.
 
 ## Troubleshooting
 

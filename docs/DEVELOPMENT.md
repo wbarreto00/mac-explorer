@@ -52,3 +52,7 @@ Packaging happens in a temporary directory to avoid extended attributes introduc
 ## Privacy and filesystem boundaries
 
 The app has no app-owned network client, telemetry, updater or account system. File access relies on macOS permissions and mounted filesystems. Copy/move conflicts must preserve both files, rename must refuse occupied paths, and restore must never overwrite. Keep potentially blocking filesystem reads off the UI thread. Changes to these rules need regression checks and explicit release notes.
+
+`AppSettingsView` hosts Language and Permissions tabs. `PermissionsSettingsView` opens the macOS-owned Full Disk Access pane through `NSWorkspace` and can reveal `Bundle.main.bundleURL` in Finder. The pane shortcut is best effort, with a manual navigation path on failure. It never grants permission, reads or edits the TCC database, or stores a local flag claiming access is enabled. Test the destination from a different System Settings pane and verify that Finder selects the running bundle.
+
+Ad hoc signatures have a code-hash-based identity. Rebuilding or updating can invalidate prior privacy grants; Full Disk Access is not a substitute for a stable signing identity. See [Apple's explanation of TCC and signing](https://developer.apple.com/forums/thread/663889). Avoid rebuilding the user's copy when only diagnosing whether an existing grant persists across launches.

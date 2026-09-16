@@ -45,7 +45,15 @@ Copiar y mover conserva ambos elementos en caso de conflicto, añadiendo un núm
 | Actualizar / archivos ocultos | ⌘R / ⌘⇧. |
 | Mover a la Papelera | ⌘⌫ |
 | Deshacer movimiento | ⌘⌥Z |
-| Ajustes de idioma | ⌘, |
+| Ajustes de idioma y permisos | ⌘, |
+
+## Permisos de acceso a archivos
+
+Abre **Mac Explorer → Ajustes… → Permisos** (⌘,) y pulsa **Abrir acceso total al disco…**. Esta opción concede acceso amplio a archivos protegidos, incluidos datos de otras apps y copias de seguridad. Puedes seguir usando permisos por carpeta si prefieres limitar el acceso.
+
+En los Ajustes del Sistema, activa Mac Explorer. Si no aparece, usa **+** para añadirlo; **Mostrar app en Finder** localiza la copia que estás ejecutando. Autentícate con Touch ID o la contraseña del Mac cuando macOS lo solicite; después, cierra y vuelve a abrir la app. La aplicación no puede concederse el permiso ni autenticarse por ti. Si el acceso directo no funciona, abre manualmente **Ajustes del Sistema → Privacidad y seguridad → Acceso total al disco**.
+
+Esta versión usa firma ad hoc. Actualizar o recompilar la app puede cambiar la identidad que macOS utiliza para recordar los permisos y requerir otra autorización. El acceso total al disco no resuelve esta limitación de firma ni proporciona notarización de Apple.
 
 ## Problemas habituales
 

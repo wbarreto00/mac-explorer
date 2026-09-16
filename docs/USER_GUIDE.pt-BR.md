@@ -45,7 +45,15 @@ Cópias e movimentações preservam conflitos acrescentando um número ao nome. 
 | Atualizar / arquivos ocultos | ⌘R / ⌘⇧. |
 | Mover para a Lixeira | ⌘⌫ |
 | Desfazer movimentação | ⌘⌥Z |
-| Ajustes de idioma | ⌘, |
+| Ajustes de idioma e permissões | ⌘, |
+
+## Permissões de acesso a arquivos
+
+Abra **Mac Explorer → Ajustes… → Permissões** (⌘,) e clique em **Abrir Acesso Total ao Disco…**. Essa opção concede acesso amplo a arquivos protegidos, incluindo dados de outros apps e backups. Você pode continuar usando permissões por pasta se preferir limitar o acesso.
+
+Nos Ajustes do Sistema, ative o Mac Explorer. Se ele não aparecer, use **+** para adicioná-lo; **Mostrar App no Finder** localiza a cópia que está sendo executada. Autentique-se com Touch ID ou a senha do Mac quando o macOS solicitar; depois, encerre e reabra o app. O aplicativo não concede a própria permissão nem autentica por você. Se o atalho não funcionar, abra manualmente **Ajustes do Sistema → Privacidade e Segurança → Acesso Total ao Disco**.
+
+Esta versão usa assinatura ad hoc. Atualizar ou recompilar o app pode mudar a identidade usada pelo macOS para lembrar as permissões e exigir nova autorização. Acesso Total ao Disco não resolve essa limitação de assinatura nem fornece notarização Apple.
 
 ## Problemas comuns
 

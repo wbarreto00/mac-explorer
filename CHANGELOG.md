@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.1 · 2026-09-16
+
+- Added a Permissions tab in Settings with a shortcut to macOS Full Disk Access and a button to locate this copy of the app in Finder.
+- Added instructions in EN, PT-BR and ES explaining the optional permission, its scope, authentication and reopening the app. System authorization remains under the user's control.
+- Documented that ad hoc signed updates may require authorization again; opening Settings does not grant permission or indicate that access is enabled.
+
 ## 1.3.0 · 2026-09-15
 
 - Right-click folders to add or remove Favorites in Details, List, icon views and the sidebar.

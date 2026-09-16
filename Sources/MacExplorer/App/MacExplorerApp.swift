@@ -19,7 +19,7 @@ struct MacExplorerApp: App {
         }
         .defaultSize(width: 1240, height: 780)
         .commands { ExplorerCommands() }
-        Settings { LanguageSettingsView() }
+        Settings { AppSettingsView() }
     }
 }
 

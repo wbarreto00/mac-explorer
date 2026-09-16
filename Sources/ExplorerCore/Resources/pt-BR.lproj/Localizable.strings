@@ -139,6 +139,16 @@
 "group.none" = "Sem agrupamento";
 "tags.none" = "Sem etiquetas";
 "settings.language" = "Idioma";
+"settings.permissions" = "Permissões";
+"permissions.title" = "Acesso Total ao Disco";
+"permissions.description" = "Opcionalmente, permita que o Mac Explorer gerencie arquivos protegidos sem autorizar cada pasta separadamente.";
+"permissions.scope" = "Isso concede acesso amplo, incluindo dados protegidos de outros apps e backups. Você pode continuar usando as permissões por pasta.";
+"permissions.open" = "Abrir Acesso Total ao Disco…";
+"permissions.reveal_app" = "Mostrar App no Finder";
+"permissions.instructions" = "Ative o Mac Explorer na lista. Se ele não aparecer, use + para adicionar este app. Autentique-se quando o macOS solicitar; depois, encerre e reabra o Mac Explorer.";
+"permissions.update_hint" = "Somente o macOS pode conceder essa permissão. Após algumas atualizações do app, o macOS poderá solicitar autorização novamente.";
+"permissions.open_error" = "Não foi possível abrir os Ajustes do Sistema";
+"permissions.manual_path" = "Abra Ajustes do Sistema → Privacidade e Segurança → Acesso Total ao Disco e ative o Mac Explorer.";
 "settings.system_language" = "Seguir o idioma do macOS";
 "settings.restart_hint" = "Encerre e reabra o Mac Explorer para aplicar o idioma. Nomes de arquivos e formatos regionais permanecem iguais.";
 "tags.loading" = "Carregando etiquetas…";

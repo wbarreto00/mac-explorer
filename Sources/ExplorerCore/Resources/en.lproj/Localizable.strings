@@ -139,6 +139,16 @@
 "group.none" = "No Grouping";
 "tags.none" = "No Tags";
 "settings.language" = "Language";
+"settings.permissions" = "Permissions";
+"permissions.title" = "Full Disk Access";
+"permissions.description" = "Optionally allow Mac Explorer to manage protected files without approving each folder separately.";
+"permissions.scope" = "This grants broad access, including protected data from other apps and backups. You can keep using individual folder permissions instead.";
+"permissions.open" = "Open Full Disk Access…";
+"permissions.reveal_app" = "Show App in Finder";
+"permissions.instructions" = "Enable Mac Explorer in the list. If it is missing, use + to add this app. Authenticate when macOS asks, then quit and reopen Mac Explorer.";
+"permissions.update_hint" = "Only macOS can grant this permission. After some app updates, macOS may ask you to authorize it again.";
+"permissions.open_error" = "Could not open System Settings";
+"permissions.manual_path" = "Open System Settings → Privacy & Security → Full Disk Access, then enable Mac Explorer.";
 "settings.system_language" = "Follow macOS language";
 "settings.restart_hint" = "Quit and reopen Mac Explorer to apply the language. File names and regional formats stay unchanged.";
 "tags.loading" = "Loading tags…";
